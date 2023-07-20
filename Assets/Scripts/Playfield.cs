@@ -3,28 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-
-
-
-
 public class Playfield : MonoBehaviour
 {
 
     
     public int size = 3;
-    public int [,] garden  ;
+    public Tile [,] garden;
 
-    [SerializeField] GameObject groundtile;
+    Dictionary<string, GameObject> plants = new Dictionary<string, GameObject>();
+
+    [SerializeField] ObjectManager manager;
+
+
 
     // Start is called before the first frame update
     void Start()
     {
-        garden = new int[size,size];
+        garden = new Tile[size,size];
 
         for (int x = 0; x < size; x++){
-            for (int y = 0; y < size; y++){
-                Instantiate(groundtile, new Vector3(x,0,y),Quaternion.Euler(0, 0, 0));
-            
+            for (int z = 0; z < size; z++){
+                garden[x,z] = new Tile(x,z);
+                manager.createObject("ground",x,0,z);
+               
             }
         }
     }
