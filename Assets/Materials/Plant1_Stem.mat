@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Dirt
-  m_Shader: {fileID: -6465566751694194690, guid: 114c790391f375d4f978fcfeb57b7560, type: 3}
+  m_Name: Plant1_Stem
+  m_Shader: {fileID: -6465566751694194690, guid: ed3ab2960f222db4e9f9cd056c9c09cf, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 2
@@ -21,15 +21,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _Emission:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: f8f40ee429693a14390b72d09117d902, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _height:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: d08f1ab79eb4b9b40b3470dbfd0a018d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -48,13 +44,12 @@ Material:
     m_Floats:
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Scale: 3.09
-    - _Strength: 0.05
+    - _Strength: 0.02
     m_Colors:
-    - _Glow: {r: 0, g: 0, b: 0, a: 0}
-    - _Tint: {r: 0.33962262, g: 0.25471696, b: 0.25471696, a: 1}
+    - _Glow: {r: 9.734288, g: 2.089559, b: 4.688767, a: 0}
+    - _Tint: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
---- !u!114 &7306958948255552964
+--- !u!114 &4623069625831543587
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
