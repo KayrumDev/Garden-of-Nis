@@ -16,6 +16,12 @@ public class Plant
     private float offsetX = 0;
     private float offsetZ = 0;
 
+    private string saplingObj = "";
+    private string bloomObj = "";
+    private string harvestObj = "";
+
+    private string activeObject = "";
+
      public Plant(int x, int z)
     {
         type = 0;
@@ -41,11 +47,17 @@ public class Plant
      public void setAge(int s){
         age = s;
         if(age >= harvestMax){
-            setStage(2);
+            setStage(3);
+            activeObject = harvestObj;
         } else if(age >= bloomMax){
+            setStage(2);
+            activeObject = harvestObj;
+        } else if(age >= saplingMax){
             setStage(1);
+            activeObject = bloomObj;
         } else {
             setStage(0);
+            activeObject = saplingObj;
         }
     }
 
@@ -59,6 +71,10 @@ public class Plant
         return rotation;
     }
 
+
+    public string getActiveObject(){
+        return activeObject;
+    }
     public void setType(int t){
         type = t;
     }
@@ -76,6 +92,10 @@ public class Plant
                 saplingMax = 1;
                 bloomMax = 3;
                 harvestMax = 4;
+                saplingObj = "plant1";
+                bloomObj = "plant2";
+                harvestObj = "plant3";
+                activeObject = "plant1";
             break;
             default:
             break;

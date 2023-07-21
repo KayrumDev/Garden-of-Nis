@@ -7,9 +7,10 @@ public class Playfield : MonoBehaviour
 {
 
     
-    public int size = 3;
+    public int size = 5;
     public Plant [,] garden;
 
+    private int numberOfTypes = 3;
     Dictionary<string, GameObject> plantObjects = new Dictionary<string, GameObject>();
 
     [SerializeField] ObjectManager manager;
@@ -17,27 +18,71 @@ public class Playfield : MonoBehaviour
 
     public void simulationStart(){
         print("Start");
-
+        List<Plant> [] typeLists = new List<Plant>[numberOfTypes+1];
+        for (int t = 0; t <= numberOfTypes; t++){
+            typeLists[t] = new List<Plant>() ;
+        }
+        //aging
         for (int x = 0; x < size; x++){
             for (int z = 0; z < size; z++){
                 if (garden[x,z].getType()!=0){
-                   garden[x,z].setAge(garden[x,z].getAge()+1);   
+                    typeLists[garden[x,z].getType()].Add(garden[x,z]);
+
+                    string oldObj = garden[x,z].getActiveObject();
+                    garden[x,z].setAge(garden[x,z].getAge()+1);   
+                    //visual change of aging
+                    if (oldObj != garden[x,z].getActiveObject()){
+                        GameObject.Destroy(plantObjects["plant_"+x+"_"+z]);
+                        plantObjects.Remove("plant_"+x+"_"+z);
+                        Vector2 offset = garden[x,z].getOffsets();
+                        plantObjects.Add("plant_"+x+"_"+z,manager.createObject(garden[x,z].getActiveObject(),x+0.5f,0,z+0.5f,offset.x,offset.y,garden[x,z].getRotation()));
+                    }
+                   
                 }
             }
         }
+        print("wither");
         wither();
+        for (int t = 0; t <= numberOfTypes; t++){
+            typeLists[t].Sort(compareAge);
+            typeLists[t].ForEach((x)=> print(x.getAge()));
+            typeLists[t].ForEach((x)=> {
+                Vector2 pos = x.getPosition();
+                List<Plant> neigbours = getNeighbours((int)pos.x,(int)pos.y).FindAll((n)=> n.getType()!= 0);
+                if (x.getStage()>0 && neigbours.Count>2){
+                    x.setAge(3);
+                }
+            });
+        }
+         //aging
+        for (int x = 0; x < size; x++){
+            for (int z = 0; z < size; z++){
+                if (garden[x,z].getType()!=0){
+                    //visual change of aging
+                    GameObject.Destroy(plantObjects["plant_"+x+"_"+z]);
+                    plantObjects.Remove("plant_"+x+"_"+z);
+                    Vector2 offset = garden[x,z].getOffsets();
+                    plantObjects.Add("plant_"+x+"_"+z,manager.createObject(garden[x,z].getActiveObject(),x+0.5f,0,z+0.5f,offset.x,offset.y,garden[x,z].getRotation()));
+                }
+            }
+        }
         
     }
 
     private void wither(){
         for (int x = 0; x < size; x++){
             for (int z = 0; z < size; z++){
-                if (garden[x,z].getType()!=0 && garden[x,z].getStage()==2){
+                if (garden[x,z].getType()!=0 && garden[x,z].getStage()==3){
                     destroy(x,z);
                 }
             }
         }
     }
+
+    private int compareAge(Plant p1, Plant p2){
+        return (p2.getAge() - p1.getAge());
+    }
+
 
     private void destroy(int x, int z){
         GameObject.Destroy(plantObjects["plant_"+x+"_"+z]);
@@ -52,7 +97,7 @@ public class Playfield : MonoBehaviour
             float offsetX = Random.Range(-5,5)/70f;
             float offsetZ = Random.Range(-5,5)/70f;
             garden[x,z].plantType(type,rotation,offsetX,offsetZ);
-            plantObjects.Add("plant_"+x+"_"+z,manager.createObject("plant1",x+0.5f,0,z+0.5f,offsetX,offsetZ,rotation));
+            plantObjects.Add("plant_"+x+"_"+z,manager.createObject(garden[x,z].getActiveObject(),x+0.5f,0,z+0.5f,offsetX,offsetZ,rotation));
            
         }
     }

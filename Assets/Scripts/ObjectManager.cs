@@ -12,6 +12,8 @@ public class ObjectManager : MonoBehaviour
     {
         table.Add("ground",0);
         table.Add("plant1",1);
+        table.Add("plant2",2);
+        table.Add("plant3",3);
     }
 
 
